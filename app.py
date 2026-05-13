@@ -11,20 +11,34 @@ MOCK_WORKER = {
     'profession': 'Construction Worker',
     'phone': '9876543210',
     'language': 'hindi',
-    'assigned_day': 'Tuesday',
+    'assigned_day': 'Wednesday',
     'last_checkin': '06 May 2026',
     'last_status': 'safe'
 }
 
 @app.route('/')
 def home():
-    worker = session.get('worker', MOCK_WORKER)
+    worker = session.get('worker', MOCK_WORKER.copy())
+    # Ensure stale session data is updated to the new assigned day (Wednesday)
+    if worker.get('assigned_day') == 'Tuesday':
+        worker['assigned_day'] = 'Wednesday'
+        session['worker'] = worker
     return render_template('dashboard.html', worker=worker)
 
 @app.route('/checkin')
 def checkin():
     worker = session.get('worker', MOCK_WORKER)
     return render_template('checkin.html', worker=worker)
+
+@app.route('/clinics')
+def clinics():
+    worker = session.get('worker', MOCK_WORKER)
+    return render_template('clinics.html', worker=worker)
+
+@app.route('/schemes')
+def schemes():
+    worker = session.get('worker', MOCK_WORKER)
+    return render_template('schemes.html', worker=worker)
 
 @app.route('/set_language', methods=['POST'])
 def set_language():
@@ -70,12 +84,24 @@ def submit_checkin():
         clinic = None
         schemes = ["PM POSHAN — Free nutritious meals", "Jan Arogya — Free health checkup camps"]
 
+    # Update worker session for dashboard to reflect latest check-in
+    worker = session.get('worker', MOCK_WORKER.copy())
+    now = datetime.now()
+    checkin_date = now.strftime("%d %B %Y")
+    
+    worker['last_checkin'] = checkin_date
+    worker['last_status'] = risk_level.lower()
+    session['worker'] = worker
+
     return jsonify({
         'risk_level': risk_level,
         'color': color,
         'clinic': clinic,
         'schemes': schemes,
-        'date': datetime.now().strftime("%d %B %Y"),
+        'date_day': now.strftime("%d"),
+        'date_month': now.strftime("%B").lower(),
+        'date_year': now.strftime("%Y"),
+        'day': now.strftime('%A'),
         'high_flags': high_flags,
         'medium_flags': medium_flags
     })

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rozana — Nearby Clinics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='translations.js') }}"></script>
+    <style>
+        .clinic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .clinic-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .clinic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .clinic-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a365d;
+        }
+
+        .clinic-type {
+            font-size: 11px;
+            background: #ebf8ff;
+            color: #2b6cb0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .clinic-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+
+        .info-icon {
+            font-size: 14px;
+        }
+
+        .clinic-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-call {
+            background: #f0fff4;
+            color: #276749;
+            border: 1px solid #9ae6b4;
+        }
+
+        .btn-dir {
+            background: #1a365d;
+            color: white;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a365d;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                    <span class="logo-icon">🌅</span>
+                    <span class="logo-text">Rozana</span>
+                </a>
+            </div>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
+                <option value="english">English</option>
+                <option value="hindi">हिंदी</option>
+                <option value="kannada">ಕನ್ನಡ</option>
+                <option value="tamil">தமிழ்</option>
+                <option value="telugu">తెలుగు</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="container">
+        <a href="/" class="back-link">← <span id="backText">Back to Dashboard</span></a>
+
+        <div class="intro-card" style="margin-bottom: 0;">
+            <h2 id="clinicsTitle">Nearby Clinics</h2>
+            <p id="clinicsSubtitle">Find government clinics and hospitals near you</p>
+        </div>
+
+        <div class="clinic-list">
+            <!-- Clinic 1 -->
+            <div class="clinic-card">
+                <div class="clinic-header">
+                    <span class="clinic-name">PHC Mangalore Central</span>
+                    <span class="clinic-type">Urban PHC</span>
+                </div>
+                <div class="clinic-info">
+                    <div class="info-row">
+                        <span class="info-icon">📍</span>
+                        <span>Bunder, Near State Bank, Mangalore</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">🕐</span>
+                        <span class="clinicOpen">Open 9am — 5pm</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">📏</span>
+                        <span>1.4 <span class="clinicDist">km away</span></span>
+                    </div>
+                </div>
+                <div class="clinic-actions">
+                    <a href="tel:08242423300" class="action-btn btn-call">📞 <span class="callText">Call</span></a>
+                    <a href="https://www.google.com/maps/search/PHC+Bunder+Mangalore" target="_blank"
+                        class="action-btn btn-dir">🗺️ <span class="dirText">Directions</span></a>
+                </div>
+            </div>
+
+            <!-- Clinic 2 -->
+            <div class="clinic-card">
+                <div class="clinic-header">
+                    <span class="clinic-name">UPHC Bejai</span>
+                    <span class="clinic-type">Urban PHC</span>
+                </div>
+                <div class="clinic-info">
+                    <div class="info-row">
+                        <span class="info-icon">📍</span>
+                        <span>Bejai Kapikad Road, Near Baliga Store</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">🕐</span>
+                        <span class="clinicOpen">Open 9am — 5pm</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">📏</span>
+                        <span>2.8 <span class="clinicDist">km away</span></span>
+                    </div>
+                </div>
+                <div class="clinic-actions">
+                    <a href="tel:08242211555" class="action-btn btn-call">📞 <span class="callText">Call</span></a>
+                    <a href="https://www.google.com/maps/search/UPHC+Bejai+Mangalore" target="_blank"
+                        class="action-btn btn-dir">🗺️ <span class="dirText">Directions</span></a>
+                </div>
+            </div>
+
+            <!-- Clinic 3 -->
+            <div class="clinic-card">
+                <div class="clinic-header">
+                    <span class="clinic-name">UPHC Jeppu</span>
+                    <span class="clinic-type">Urban PHC</span>
+                </div>
+                <div class="clinic-info">
+                    <div class="info-row">
+                        <span class="info-icon">📍</span>
+                        <span>Mangaladevi Road, Jeppu, Mangalore</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">🕐</span>
+                        <span class="clinicOpen">Open 9am — 5pm</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">📏</span>
+                        <span>3.2 <span class="clinicDist">km away</span></span>
+                    </div>
+                </div>
+                <div class="clinic-actions">
+                    <a href="tel:08242410100" class="action-btn btn-call">📞 <span class="callText">Call</span></a>
+                    <a href="https://www.google.com/maps/search/UPHC+Jeppu+Mangalore" target="_blank"
+                        class="action-btn btn-dir">🗺️ <span class="dirText">Directions</span></a>
+                </div>
+            </div>
+
+            <!-- Clinic 4 -->
+            <div class="clinic-card">
+                <div class="clinic-header">
+                    <span class="clinic-name">District Wenlock Hospital</span>
+                    <span class="clinic-type">Government Hospital</span>
+                </div>
+                <div class="clinic-info">
+                    <div class="info-row">
+                        <span class="info-icon">📍</span>
+                        <span>Hampankatta, Mangalore</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">🕐</span>
+                        <span class="clinicOpen">Open 24 Hours</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">📏</span>
+                        <span>0.8 <span class="clinicDist">km away</span></span>
+                    </div>
+                </div>
+                <div class="clinic-actions">
+                    <a href="tel:08242423300" class="action-btn btn-call">📞 <span class="callText">Call</span></a>
+                    <a href="https://www.google.com/maps/search/Wenlock+Hospital+Mangalore" target="_blank"
+                        class="action-btn btn-dir">🗺️ <span class="dirText">Directions</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const lang = '{{ worker.language }}';
+        document.getElementById('langSelect').value = lang;
+        applyTranslations(lang);
+
+        function changeLanguage(selectedLang) {
+            fetch('/set_language', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ language: selectedLang })
+            }).then(() => applyTranslations(selectedLang));
+        }
+
+        function applyTranslations(lang) {
+            const t = translations[lang] || translations.english;
+            document.getElementById('clinicsTitle').textContent = t.clinics_title;
+            document.getElementById('clinicsSubtitle').textContent = t.clinics_subtitle;
+            document.getElementById('backText').textContent = t.welcome; // Reusing "Welcome back" as back text or just leave it
+            
+            document.querySelectorAll('.clinicOpen').forEach(el => {
+                if (el.textContent !== 'Open 24 Hours') el.textContent = t.clinic_open;
+            });
+            document.querySelectorAll('.clinicDist').forEach(el => el.textContent = t.clinic_dist);
+            document.querySelectorAll('.callText').forEach(el => el.textContent = t.call);
+            document.querySelectorAll('.dirText').forEach(el => el.textContent = t.directions);
+        }
+    </script>
+</body>
+
+</html>

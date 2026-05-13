@@ -331,7 +331,11 @@
             document.getElementById('resultIcon').textContent = icons[data.risk_level];
             document.getElementById('resultTitle').textContent = titles[data.risk_level];
             document.getElementById('resultMessage').textContent = messages[data.risk_level];
-            document.getElementById('resultDate').textContent = '📅 ' + data.date;
+            
+            const translatedDay = t[data.day.toLowerCase()] || data.day;
+            const translatedMonth = t[data.date_month.toLowerCase()] || data.date_month;
+            document.getElementById('resultDate').textContent = '📅 ' + translatedDay + ', ' + data.date_day + ' ' + translatedMonth + ' ' + data.date_year;
+            
             document.getElementById('resultHeader').className = 'result-header result-' + data.color;
 
             if (data.clinic) {

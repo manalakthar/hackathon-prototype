@@ -29,6 +29,12 @@
         </div>
     </div>
 
+    <div class="date-bar">
+        <div class="container">
+            <span id="headerDate"></span>
+        </div>
+    </div>
+
     <div class="container">
 
         <!-- Worker Card -->
@@ -47,14 +53,14 @@
                 <span class="stat-icon">📅</span>
                 <div>
                     <p class="stat-label" id="assignedDayLabel">Check-in Day</p>
-                    <p class="stat-value">{{ worker.assigned_day }}</p>
+                    <p class="stat-value" id="assignedDayValue">{{ worker.assigned_day }}</p>
                 </div>
             </div>
             <div class="stat-card">
                 <span class="stat-icon">🕐</span>
                 <div>
                     <p class="stat-label" id="lastCheckinLabel">Last Check-in</p>
-                    <p class="stat-value">{{ worker.last_checkin }}</p>
+                    <p class="stat-value" id="lastCheckinValue">{{ worker.last_checkin }}</p>
                 </div>
             </div>
             <div
@@ -72,7 +78,7 @@
         </div>
 
         <!-- Check-in Due Banner -->
-        <div class="checkin-banner">
+        <div class="checkin-banner" id="checkinBanner">
             <div class="banner-text">
                 <span class="banner-icon">🔔</span>
                 <p id="checkinDueText">Your weekly check-in is due</p>
@@ -101,7 +107,7 @@
                 <span class="action-arrow">→</span>
             </a>
 
-            <a href="#" class="action-card">
+            <a href="/schemes" class="action-card">
                 <span class="action-icon">📋</span>
                 <div>
                     <p class="action-title" id="schemesLabel">My Government Schemes</p>
@@ -110,7 +116,7 @@
                 <span class="action-arrow">→</span>
             </a>
 
-            <a href="#" class="action-card">
+            <a href="/clinics" class="action-card">
                 <span class="action-icon">🏥</span>
                 <div>
                     <p class="action-title">Nearby Clinics</p>
@@ -171,6 +177,18 @@
 
         function applyTranslations(lang) {
             const t = translations[lang] || translations.english;
+            
+            // Set Header Date
+            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+            const now = new Date();
+            const dayName = days[now.getDay()];
+            const monthName = months[now.getMonth()];
+            const dateNum = now.getDate();
+            const yearNum = now.getFullYear();
+            
+            document.getElementById('headerDate').textContent = `${t[dayName]}, ${dateNum} ${t[monthName]} ${yearNum}`;
+
             document.getElementById('welcomeText').textContent = t.welcome;
             document.getElementById('assignedDayLabel').textContent = t.assigned_day;
             document.getElementById('lastCheckinLabel').textContent = t.last_checkin;
@@ -181,9 +199,56 @@
             document.getElementById('nutriLensLabel').textContent = t.nutrilens;
             document.getElementById('schemesLabel').textContent = t.schemes;
 
+            // Translate Last Check-in date
+            const lastCheckin = '{{ worker.last_checkin }}';
+            const parts = lastCheckin.split(' ');
+            if (parts.length === 3) {
+                const dayNum = parts[0];
+                const monthName = parts[1].toLowerCase();
+                const yearNum = parts[2];
+                
+                // Check if last check-in is today
+                const today = new Date();
+                const todayDateStr = `${today.getDate()} ${months[today.getMonth()]} ${today.getFullYear()}`.toLowerCase();
+                
+                if (lastCheckin.toLowerCase() === todayDateStr) {
+                    document.getElementById('lastCheckinValue').textContent = t.today;
+                    document.getElementById('checkinBanner').style.display = 'none';
+                } else if (t[monthName]) {
+                    document.getElementById('lastCheckinValue').textContent = `${dayNum} ${t[monthName]} ${yearNum}`;
+                }
+            }
+
             const status = '{{ worker.last_status }}';
             const statusMap = { safe: t.safe, moderate: t.moderate, high: t.high };
             document.getElementById('healthStatusValue').textContent = statusMap[status] || t.safe;
+
+            const assignedDay = '{{ worker.assigned_day }}'.toLowerCase();
+            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            const todayIndex = new Date().getDay();
+            const todayName = days[todayIndex];
+
+            if (t[assignedDay]) {
+                let displayDay = t[assignedDay];
+                if (assignedDay === todayName) {
+                    displayDay += ` (${t.today})`;
+                }
+                document.getElementById('assignedDayValue').textContent = displayDay;
+            }
+
+            // Translate Timeline
+            document.querySelectorAll('.timeline-date').forEach(el => {
+                const text = el.textContent;
+                const parts = text.split(' ');
+                if (parts.length === 3) {
+                    const d = parts[0];
+                    const m = parts[1].toLowerCase();
+                    const y = parts[2];
+                    if (t[m]) {
+                        el.textContent = `${d} ${t[m]} ${y}`;
+                    }
+                }
+            });
         }
     </script>
 
