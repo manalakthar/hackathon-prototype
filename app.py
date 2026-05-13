@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from datetime import datetime
+from modules.nutrilens import analyze_child_photo
 
 app = Flask(__name__)
 app.secret_key = 'rozana_secret_key'
@@ -78,6 +79,18 @@ def submit_checkin():
         'high_flags': high_flags,
         'medium_flags': medium_flags
     })
+
+@app.route('/nutrilens')
+def nutrilens():
+    worker = session.get('worker', MOCK_WORKER)
+    return render_template('nutrilens.html', worker=worker)
+
+@app.route('/nutrilens/analyze', methods=['POST'])
+def nutrilens_analyze():
+    age_months = int(request.form.get('age_months', 24))
+    # Photo is uploaded but we use mock analysis for this prototype
+    result = analyze_child_photo(age_months)
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(debug=True)
