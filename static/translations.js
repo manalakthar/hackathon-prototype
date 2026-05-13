@@ -147,7 +147,13 @@ const translations = {
         schemes_subtitle: "Social security and health benefits for you",
         apply_now: "How to Apply",
         benefit: "Benefit",
-        eligibility: "Eligibility"
+        eligibility: "Eligibility",
+        health_pulse: "Health Pulse",
+        news: [
+            { tag: "Public Health", title: "Indoor pollution risks rising as families shift to biomass fuels." },
+            { tag: "Medical Policy", title: "NTA announces NEET-UG 2026 re-test after paper leak reports." },
+            { tag: "Technology", title: "New robotic surgery training center launched in Saket hospital." }
+        ]
     },
 
     hindi: {
@@ -292,7 +298,13 @@ const translations = {
         schemes_subtitle: "आपके लिए सामाजिक सुरक्षा और स्वास्थ्य लाभ",
         apply_now: "आवेदन कैसे करें",
         benefit: "लाभ",
-        eligibility: "पात्रता"
+        eligibility: "पात्रता",
+        health_pulse: "हेल्थ पल्स",
+        news: [
+            { tag: "जन स्वास्थ्य", title: "लकड़ी और कोयले के इस्तेमाल से घरों में प्रदूषण का खतरा बढ़ा।" },
+            { tag: "चिकित्सा नीति", title: "पेपर लीक के बाद NEET-UG 2026 की दोबारा परीक्षा घोषित।" },
+            { tag: "तकनीक", title: "साकेत अस्पताल में रोबोटिक सर्जरी ट्रेनिंग सेंटर शुरू।" }
+        ]
     },
 
     kannada: {
@@ -437,7 +449,13 @@ const translations = {
         schemes_subtitle: "ನಿಮಗಾಗಿ ಸಾಮಾಜಿಕ ಭದ್ರತೆ ಮತ್ತು ಆರೋಗ್ಯ ಪ್ರಯೋಜನಗಳು",
         apply_now: "ಅರ್ಜಿ ಸಲ್ಲಿಸುವುದು ಹೇಗೆ",
         benefit: "ಪ್ರಯೋಜನ",
-        eligibility: "ಅರ್ಹತೆ"
+        eligibility: "ಅರ್ಹತೆ",
+        health_pulse: "ಆರೋಗ್ಯ ಸುದ್ದಿ",
+        news: [
+            { tag: "ಜನಾರೋಗ್ಯ", title: "ಮನೆಯೊಳಗೆ ವಾಯು ಮಾಲಿನ್ಯದ ಅಪಾಯ ಹೆಚ್ಚುತ್ತಿದೆ." },
+            { tag: "ವೈದ್ಯಕೀಯ ನೀತಿ", title: "NEET-UG 2026 ಮರು ಪರೀಕ್ಷೆ ಘೋಷಣೆ." },
+            { tag: "ತಂತ್ರಜ್ಞಾನ", title: "ಸಾಕೇತ್ ಆಸ್ಪತ್ರೆಯಲ್ಲಿ ರೋಬೋಟಿಕ್ ಸರ್ಜರಿ ತರಬೇತಿ ಕೇಂದ್ರ ಪ್ರಾರಂಭ." }
+        ]
     },
 
     tamil: {
@@ -582,7 +600,13 @@ const translations = {
         schemes_subtitle: "உங்களுக்கான சமூக பாதுகாப்பு மற்றும் சுகாதார நன்மைகள்",
         apply_now: "விண்ணப்பிப்பது எப்படி",
         benefit: "நன்மை",
-        eligibility: "தகுதி"
+        eligibility: "தகுதி",
+        health_pulse: "உடல்நலச் செய்திகள்",
+        news: [
+            { tag: "பொது சுகாதாரம்", title: "வீட்டுக்குள் காற்று மாசுபாடு அபாயம் அதிகரித்து வருகிறது." },
+            { tag: "மருத்துவக் கொள்கை", title: "NEET-UG 2026 மறு தேர்வு அறிவிப்பு." },
+            { tag: "தொழில்நுட்பம்", title: "சாகேத் மருத்துவமனையில் ரோபோடிக் அறுவை சிகிச்சை பயிற்சி மையம்." }
+        ]
     },
 
     telugu: {
@@ -727,6 +751,12 @@ const translations = {
         schemes_subtitle: "మీ కోసం సామాజిక భద్రత మరియు ఆరోగ్య ప్రయోజనాలు",
         apply_now: "ఎలా దరఖాస్తు చేయాలి",
         benefit: "ప్రయోజనం",
-        eligibility: "అర్హత"
+        eligibility: "అర్హత",
+        health_pulse: "ఆరోగ్య వార్తలు",
+        news: [
+            { tag: "ప్రజారోగ్యం", title: "ఇళ్లలో వాయు కాలుష్య ముప్పు పెరుగుతోంది." },
+            { tag: "వైద్య విధానం", title: "NEET-UG 2026 మళ్లీ పరీక్ష నిర్వహణ ప్రకటన." },
+            { tag: "సాంకేతికత", title: "సాకేత్ ఆసుపత్రిలో రోబోటిక్ సర్జరీ శిక్షణ కేంద్రం ప్రారంభం." }
+        ]
     }
 };

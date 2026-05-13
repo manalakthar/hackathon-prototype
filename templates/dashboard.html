@@ -11,12 +11,19 @@
 
 <body>
 
+    <!-- News Ticker -->
+    <div class="news-ticker">
+        <div class="ticker-content" id="newsTicker">
+            Loading latest health updates...
+        </div>
+    </div>
+
     <!-- Header -->
     <div class="header">
         <div class="header-inner">
             <div class="logo">
-                <span class="logo-icon">🌅</span>
-                <span class="logo-text">Rozana</span>
+                <div class="logo-icon">🩺</div>
+                <span class="logo-text">Rozana Health</span>
             </div>
             <!-- Language Selector -->
             <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
@@ -30,7 +37,7 @@
     </div>
 
     <div class="date-bar">
-        <div class="container">
+        <div class="container" style="padding:0;">
             <span id="headerDate"></span>
         </div>
     </div>
@@ -51,29 +58,22 @@
         <div class="stats-row">
             <div class="stat-card">
                 <span class="stat-icon">📅</span>
-                <div>
-                    <p class="stat-label" id="assignedDayLabel">Check-in Day</p>
-                    <p class="stat-value" id="assignedDayValue">{{ worker.assigned_day }}</p>
-                </div>
+                <p class="stat-label" id="assignedDayLabel">Check-in Day</p>
+                <p class="stat-value" id="assignedDayValue">{{ worker.assigned_day }}</p>
             </div>
             <div class="stat-card">
                 <span class="stat-icon">🕐</span>
-                <div>
-                    <p class="stat-label" id="lastCheckinLabel">Last Check-in</p>
-                    <p class="stat-value" id="lastCheckinValue">{{ worker.last_checkin }}</p>
-                </div>
+                <p class="stat-label" id="lastCheckinLabel">Last Check-in</p>
+                <p class="stat-value" id="lastCheckinValue">{{ worker.last_checkin }}</p>
             </div>
-            <div
-                class="stat-card {% if worker.last_status == 'safe' %}stat-green{% elif worker.last_status == 'moderate' %}stat-orange{% else %}stat-red{% endif %}">
+            <div class="stat-card {% if worker.last_status == 'safe' %}stat-green{% elif worker.last_status == 'moderate' %}stat-orange{% else %}stat-red{% endif %}">
                 <span class="stat-icon">❤️</span>
-                <div>
-                    <p class="stat-label" id="healthStatusLabel">Health Status</p>
-                    <p class="stat-value" id="healthStatusValue">
-                        {% if worker.last_status == 'safe' %}All Good
-                        {% elif worker.last_status == 'moderate' %}Moderate Risk
-                        {% else %}High Risk{% endif %}
-                    </p>
-                </div>
+                <p class="stat-label" id="healthStatusLabel">Health Status</p>
+                <p class="stat-value" id="healthStatusValue">
+                    {% if worker.last_status == 'safe' %}All Good
+                    {% elif worker.last_status == 'moderate' %}Moderate Risk
+                    {% else %}High Risk{% endif %}
+                </p>
             </div>
         </div>
 
@@ -83,17 +83,16 @@
                 <span class="banner-icon">🔔</span>
                 <p id="checkinDueText">Your weekly check-in is due</p>
             </div>
-            <a href="/checkin" class="banner-btn" id="startCheckinBtn">Start Check-in →</a>
+            <a href="/checkin" class="banner-btn" id="startCheckinBtn">Start Now →</a>
         </div>
 
         <!-- Action Cards -->
         <div class="action-grid">
-
             <a href="/checkin" class="action-card action-primary">
-                <span class="action-icon">🩺</span>
+                <span class="action-icon">🏥</span>
                 <div>
-                    <p class="action-title" id="startCheckinLabel">Weekly Health Check-in</p>
-                    <p class="action-sub">Takes 2 minutes</p>
+                    <p class="action-title" id="startCheckinLabel">Health Check-in</p>
+                    <p class="action-sub">2 min assessment</p>
                 </div>
                 <span class="action-arrow">→</span>
             </a>
@@ -101,8 +100,8 @@
             <a href="/nutrilens" class="action-card">
                 <span class="action-icon">👶</span>
                 <div>
-                    <p class="action-title" id="nutriLensLabel">NutriLens Child Scan</p>
-                    <p class="action-sub">Weekly nutrition check</p>
+                    <p class="action-title" id="nutriLensLabel">Child Nutrition</p>
+                    <p class="action-sub">AI Photo Scan</p>
                 </div>
                 <span class="action-arrow">→</span>
             </a>
@@ -110,21 +109,43 @@
             <a href="/schemes" class="action-card">
                 <span class="action-icon">📋</span>
                 <div>
-                    <p class="action-title" id="schemesLabel">My Government Schemes</p>
-                    <p class="action-sub">Ayushman Bharat, ESIC</p>
+                    <p class="action-title" id="schemesLabel">Govt Schemes</p>
+                    <p class="action-sub">Welfare & Security</p>
                 </div>
                 <span class="action-arrow">→</span>
             </a>
 
             <a href="/clinics" class="action-card">
-                <span class="action-icon">🏥</span>
+                <span class="action-icon">📍</span>
                 <div>
-                    <p class="action-title">Nearby Clinics</p>
-                    <p class="action-sub">PHC, hospitals, camps</p>
+                    <p class="action-title" id="clinicsLabel">Find Clinics</p>
+                    <p class="action-sub">Nearby hospitals</p>
                 </div>
                 <span class="action-arrow">→</span>
             </a>
+        </div>
 
+        <!-- Health Pulse News -->
+        <div class="section-title">Health Pulse</div>
+        <div class="news-grid" id="newsGrid">
+            <a href="#" class="news-card">
+                <div>
+                    <span class="news-tag">Public Health</span>
+                    <p class="news-title">Rising energy costs lead to biomass fuel use, increasing indoor pollution risks in urban areas.</p>
+                </div>
+            </a>
+            <a href="#" class="news-card">
+                <div>
+                    <span class="news-tag">Medical Policy</span>
+                    <p class="news-title">NTA announces re-test for NEET-UG 2026 following question paper leak allegations.</p>
+                </div>
+            </a>
+            <a href="#" class="news-card">
+                <div>
+                    <span class="news-tag">Technology</span>
+                    <p class="news-title">Stryker and Max Smart Hospital partner to launch robotic surgery training center in Saket.</p>
+                </div>
+            </a>
         </div>
 
         <!-- Health Timeline -->
@@ -149,13 +170,6 @@
                 <div class="timeline-content">
                     <p class="timeline-date">22 Apr 2026</p>
                     <p class="timeline-text">Weekly check-in — All Good ✅</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-dot dot-green"></div>
-                <div class="timeline-content">
-                    <p class="timeline-date">15 Apr 2026</p>
-                    <p class="timeline-text">Registered on Rozana 🌅</p>
                 </div>
             </div>
         </div>
@@ -234,6 +248,29 @@
                 }
                 document.getElementById('assignedDayValue').textContent = displayDay;
             }
+
+            // Update News Sections
+            document.querySelectorAll('.section-title')[0].textContent = t.health_pulse;
+            
+            // Update Ticker
+            const tickerText = t.news.map(n => `[${n.tag}] ${n.title}`).join(' • ');
+            document.getElementById('newsTicker').textContent = tickerText + ' • ' + tickerText; // Duplicate for continuous flow
+
+            // Update News Grid
+            const newsGrid = document.getElementById('newsGrid');
+            newsGrid.innerHTML = '';
+            t.news.forEach(n => {
+                const card = document.createElement('a');
+                card.href = "#";
+                card.className = "news-card";
+                card.innerHTML = `
+                    <div>
+                        <span class="news-tag">${n.tag}</span>
+                        <p class="news-title">${n.title}</p>
+                    </div>
+                `;
+                newsGrid.appendChild(card);
+            });
 
             // Translate Timeline
             document.querySelectorAll('.timeline-date').forEach(el => {
