@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='translations.js') }}"></script>
     <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
         .clinic-list {
             display: flex;
             flex-direction: column;
@@ -17,12 +19,13 @@
 
         .clinic-card {
             background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
         .clinic-header {
@@ -33,77 +36,75 @@
 
         .clinic-name {
             font-size: 18px;
-            font-weight: 700;
-            color: #1a365d;
+            font-weight: 800;
+            color: var(--secondary);
         }
 
         .clinic-type {
             font-size: 11px;
-            background: #ebf8ff;
-            color: #2b6cb0;
-            padding: 2px 8px;
-            border-radius: 4px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 4px 10px;
+            border-radius: 6px;
             text-transform: uppercase;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .clinic-info {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 8px;
         }
 
         .info-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: #4a5568;
-        }
-
-        .info-icon {
+            gap: 10px;
             font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
         .clinic-actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-top: 8px;
         }
 
         .action-btn {
             flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
             text-align: center;
             text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
+            transition: all 0.2s;
         }
 
         .btn-call {
-            background: #f0fff4;
-            color: #276749;
-            border: 1px solid #9ae6b4;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border: 1px solid #99f6e4;
         }
 
         .btn-dir {
-            background: #1a365d;
+            background: var(--primary);
             color: white;
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            color: #1a365d;
+            gap: 8px;
+            color: var(--primary);
             text-decoration: none;
-            font-weight: 600;
-            margin-bottom: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
             font-size: 14px;
         }
     </style>
