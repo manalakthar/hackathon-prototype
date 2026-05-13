@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rozana — Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='translations.js') }}"></script>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-icon">🌅</span>
+                <span class="logo-text">Rozana</span>
+            </div>
+            <!-- Language Selector -->
+            <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
+                <option value="english">English</option>
+                <option value="hindi">हिंदी</option>
+                <option value="kannada">ಕನ್ನಡ</option>
+                <option value="tamil">தமிழ்</option>
+                <option value="telugu">తెలుగు</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Worker Card -->
+        <div class="worker-card">
+            <div class="worker-avatar">{{ worker.name[0] }}</div>
+            <div class="worker-info">
+                <h2 id="welcomeText">Welcome back</h2>
+                <h1 class="worker-name">{{ worker.name }}</h1>
+                <span class="worker-badge">{{ worker.profession }}</span>
+            </div>
+        </div>
+
+        <!-- Status Cards Row -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <span class="stat-icon">📅</span>
+                <div>
+                    <p class="stat-label" id="assignedDayLabel">Check-in Day</p>
+                    <p class="stat-value">{{ worker.assigned_day }}</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon">🕐</span>
+                <div>
+                    <p class="stat-label" id="lastCheckinLabel">Last Check-in</p>
+                    <p class="stat-value">{{ worker.last_checkin }}</p>
+                </div>
+            </div>
+            <div
+                class="stat-card {% if worker.last_status == 'safe' %}stat-green{% elif worker.last_status == 'moderate' %}stat-orange{% else %}stat-red{% endif %}">
+                <span class="stat-icon">❤️</span>
+                <div>
+                    <p class="stat-label" id="healthStatusLabel">Health Status</p>
+                    <p class="stat-value" id="healthStatusValue">
+                        {% if worker.last_status == 'safe' %}All Good
+                        {% elif worker.last_status == 'moderate' %}Moderate Risk
+                        {% else %}High Risk{% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Check-in Due Banner -->
+        <div class="checkin-banner">
+            <div class="banner-text">
+                <span class="banner-icon">🔔</span>
+                <p id="checkinDueText">Your weekly check-in is due</p>
+            </div>
+            <a href="/checkin" class="banner-btn" id="startCheckinBtn">Start Check-in →</a>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="action-grid">
+
+            <a href="/checkin" class="action-card action-primary">
+                <span class="action-icon">🩺</span>
+                <div>
+                    <p class="action-title" id="startCheckinLabel">Weekly Health Check-in</p>
+                    <p class="action-sub">Takes 2 minutes</p>
+                </div>
+                <span class="action-arrow">→</span>
+            </a>
+
+            <a href="#" class="action-card">
+                <span class="action-icon">👶</span>
+                <div>
+                    <p class="action-title" id="nutriLensLabel">NutriLens Child Scan</p>
+                    <p class="action-sub">Weekly nutrition check</p>
+                </div>
+                <span class="action-arrow">→</span>
+            </a>
+
+            <a href="#" class="action-card">
+                <span class="action-icon">📋</span>
+                <div>
+                    <p class="action-title" id="schemesLabel">My Government Schemes</p>
+                    <p class="action-sub">Ayushman Bharat, ESIC</p>
+                </div>
+                <span class="action-arrow">→</span>
+            </a>
+
+            <a href="#" class="action-card">
+                <span class="action-icon">🏥</span>
+                <div>
+                    <p class="action-title">Nearby Clinics</p>
+                    <p class="action-sub">PHC, hospitals, camps</p>
+                </div>
+                <span class="action-arrow">→</span>
+            </a>
+
+        </div>
+
+        <!-- Health Timeline -->
+        <div class="section-title">Health Timeline</div>
+        <div class="timeline-card">
+            <div class="timeline-item">
+                <div class="timeline-dot dot-green"></div>
+                <div class="timeline-content">
+                    <p class="timeline-date">06 May 2026</p>
+                    <p class="timeline-text">Weekly check-in — All Good ✅</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot dot-orange"></div>
+                <div class="timeline-content">
+                    <p class="timeline-date">29 Apr 2026</p>
+                    <p class="timeline-text">Weekly check-in — Fever detected ⚠️ Clinic visit recommended</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot dot-green"></div>
+                <div class="timeline-content">
+                    <p class="timeline-date">22 Apr 2026</p>
+                    <p class="timeline-text">Weekly check-in — All Good ✅</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot dot-green"></div>
+                <div class="timeline-content">
+                    <p class="timeline-date">15 Apr 2026</p>
+                    <p class="timeline-text">Registered on Rozana 🌅</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const lang = '{{ worker.language }}';
+        document.getElementById('langSelect').value = lang;
+        applyTranslations(lang);
+
+        function changeLanguage(selectedLang) {
+            fetch('/set_language', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ language: selectedLang })
+            }).then(() => applyTranslations(selectedLang));
+        }
+
+        function applyTranslations(lang) {
+            const t = translations[lang] || translations.english;
+            document.getElementById('welcomeText').textContent = t.welcome;
+            document.getElementById('assignedDayLabel').textContent = t.assigned_day;
+            document.getElementById('lastCheckinLabel').textContent = t.last_checkin;
+            document.getElementById('healthStatusLabel').textContent = t.health_status;
+            document.getElementById('checkinDueText').textContent = t.checkin_due;
+            document.getElementById('startCheckinBtn').textContent = t.start_checkin + ' →';
+            document.getElementById('startCheckinLabel').textContent = t.checkin_title;
+            document.getElementById('nutriLensLabel').textContent = t.nutrilens;
+            document.getElementById('schemesLabel').textContent = t.schemes;
+
+            const status = '{{ worker.last_status }}';
+            const statusMap = { safe: t.safe, moderate: t.moderate, high: t.high };
+            document.getElementById('healthStatusValue').textContent = statusMap[status] || t.safe;
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rozana — Check-in</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='translations.js') }}"></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                    <span class="logo-icon">🌅</span>
+                    <span class="logo-text">Rozana</span>
+                </a>
+            </div>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
+                <option value="english">English</option>
+                <option value="hindi">हिंदी</option>
+                <option value="kannada">ಕನ್ನಡ</option>
+                <option value="tamil">தமிழ்</option>
+                <option value="telugu">తెలుగు</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Progress Bar -->
+        <div class="progress-wrap">
+            <div class="progress-bar" id="progressBar" style="width:25%"></div>
+        </div>
+        <div class="progress-label">
+            <span id="sectionLabel">Section 1 of 4</span>
+            <span id="sectionTitle">General Symptoms</span>
+        </div>
+
+        <!-- Worker Greeting -->
+        <div class="intro-card">
+            <h2 id="checkinTitle">Weekly Health Check-in</h2>
+            <p id="checkinSubtitle">Answer honestly. This helps us keep you safe.</p>
+            <span class="worker-tag">👤 {{ worker.name }}</span>
+        </div>
+
+        <!-- SECTION 1 — General Symptoms -->
+        <div class="form-card section-page" id="section1">
+            <div class="field-group">
+                <label id="s1Label">This week, did you experience any of these?</label>
+                <p class="sublabel" id="selectAllLabel">Select all that apply</p>
+                <div class="symptom-grid">
+                    <div class="symptom-card" data-section="symptoms" data-value="persistent_cough">
+                        <span class="symptom-icon">🫁</span>
+                        <span class="symptom-label" id="s_cough">Persistent Cough</span>
+                        <span class="symptom-sub" id="s_cough_sub">More than 3 days</span>
+                    </div>
+                    <div class="symptom-card" data-section="symptoms" data-value="fever">
+                        <span class="symptom-icon">🌡️</span>
+                        <span class="symptom-label" id="s_fever">Fever</span>
+                        <span class="symptom-sub" id="s_fever_sub">High temperature</span>
+                    </div>
+                    <div class="symptom-card" data-section="symptoms" data-value="fatigue">
+                        <span class="symptom-icon">😮‍💨</span>
+                        <span class="symptom-label" id="s_fatigue">Fatigue</span>
+                        <span class="symptom-sub" id="s_fatigue_sub">Unusual tiredness</span>
+                    </div>
+                    <div class="symptom-card" data-section="symptoms" data-value="weight_loss">
+                        <span class="symptom-icon">⚖️</span>
+                        <span class="symptom-label" id="s_weight_loss">Weight Loss</span>
+                        <span class="symptom-sub" id="s_weight_loss_sub">Unexpected loss</span>
+                    </div>
+                    <div class="symptom-card" data-section="symptoms" data-value="breathlessness">
+                        <span class="symptom-icon">💨</span>
+                        <span class="symptom-label" id="s_breathlessness">Breathlessness</span>
+                        <span class="symptom-sub" id="s_breathlessness_sub">Difficulty breathing</span>
+                    </div>
+                    <div class="symptom-card" data-section="symptoms" data-value="night_sweats">
+                        <span class="symptom-icon">🌙</span>
+                        <span class="symptom-label" id="s_night_sweats">Night Sweats</span>
+                        <span class="symptom-sub" id="s_night_sweats_sub">Sweating at night</span>
+                    </div>
+                    <div class="symptom-card" data-section="symptoms" data-value="body_pain">
+                        <span class="symptom-icon">🦴</span>
+                        <span class="symptom-label" id="s_body_pain">Body Pain</span>
+                        <span class="symptom-sub" id="s_body_pain_sub">Joint or muscle pain</span>
+                    </div>
+                    <div class="symptom-card none-card" data-section="symptoms" data-value="none">
+                        <span class="symptom-icon">✅</span>
+                        <span class="symptom-label" id="s_none">None of these</span>
+                        <span class="symptom-sub" id="s_none_sub">I feel fine</span>
+                    </div>
+                </div>
+            </div>
+            <button class="submit-btn" onclick="goToSection(2)" id="next1Btn">Next →</button>
+        </div>
+
+        <!-- SECTION 2 — Work Symptoms -->
+        <div class="form-card section-page" id="section2" style="display:none;">
+            <div class="field-group">
+                <label id="s2Label">Any work-related issues this week?</label>
+                <p class="sublabel" id="selectAllLabel2">Select all that apply</p>
+                <div class="symptom-grid">
+                    <div class="symptom-card" data-section="work" data-value="back_pain">
+                        <span class="symptom-icon">🔧</span>
+                        <span class="symptom-label" id="s_back_pain">Back Pain</span>
+                        <span class="symptom-sub" id="s_back_pain_sub">From lifting or bending</span>
+                    </div>
+                    <div class="symptom-card" data-section="work" data-value="dust_exposure">
+                        <span class="symptom-icon">🌫️</span>
+                        <span class="symptom-label" id="s_dust_exposure">Dust Exposure</span>
+                        <span class="symptom-sub" id="s_dust_exposure_sub">Working in dusty area</span>
+                    </div>
+                    <div class="symptom-card" data-section="work" data-value="heat_exhaustion">
+                        <span class="symptom-icon">☀️</span>
+                        <span class="symptom-label" id="s_heat_exhaustion">Heat Exhaustion</span>
+                        <span class="symptom-sub" id="s_heat_exhaustion_sub">Worked in extreme heat</span>
+                    </div>
+                    <div class="symptom-card" data-section="work" data-value="chemical_exposure">
+                        <span class="symptom-icon">⚗️</span>
+                        <span class="symptom-label" id="s_chemical_exposure">Chemical Exposure</span>
+                        <span class="symptom-sub" id="s_chemical_exposure_sub">Contact with chemicals</span>
+                    </div>
+                    <div class="symptom-card" data-section="work" data-value="eye_irritation">
+                        <span class="symptom-icon">👁️</span>
+                        <span class="symptom-label" id="s_eye_irritation">Eye Irritation</span>
+                        <span class="symptom-sub" id="s_eye_irritation_sub">Redness or burning</span>
+                    </div>
+                    <div class="symptom-card" data-section="work" data-value="skin_rash">
+                        <span class="symptom-icon">🩹</span>
+                        <span class="symptom-label" id="s_skin_rash">Skin Rash</span>
+                        <span class="symptom-sub" id="s_skin_rash_sub">Unusual skin condition</span>
+                    </div>
+                    <div class="symptom-card none-card" data-section="work" data-value="none_work">
+                        <span class="symptom-icon">✅</span>
+                        <span class="symptom-label">None of these</span>
+                        <span class="symptom-sub">Work was fine</span>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button class="back-btn" onclick="goToSection(1)" id="back2Btn">← Back</button>
+                <button class="submit-btn half" onclick="goToSection(3)" id="next2Btn">Next →</button>
+            </div>
+        </div>
+
+        <!-- SECTION 3 — Mental Health -->
+        <div class="form-card section-page" id="section3" style="display:none;">
+            <div class="field-group">
+                <label id="s3Label">How has your mind and sleep been?</label>
+                <p class="sublabel" id="selectAllLabel3">Select all that apply</p>
+                <div class="symptom-grid">
+                    <div class="symptom-card" data-section="mental" data-value="stress">
+                        <span class="symptom-icon">😰</span>
+                        <span class="symptom-label" id="s_stress">High Stress</span>
+                        <span class="symptom-sub" id="s_stress_sub">Feeling overwhelmed</span>
+                    </div>
+                    <div class="symptom-card" data-section="mental" data-value="poor_sleep">
+                        <span class="symptom-icon">😴</span>
+                        <span class="symptom-label" id="s_poor_sleep">Poor Sleep</span>
+                        <span class="symptom-sub" id="s_poor_sleep_sub">Less than 5 hours</span>
+                    </div>
+                    <div class="symptom-card" data-section="mental" data-value="anxiety">
+                        <span class="symptom-icon">😟</span>
+                        <span class="symptom-label" id="s_anxiety">Anxiety</span>
+                        <span class="symptom-sub" id="s_anxiety_sub">Constant worry</span>
+                    </div>
+                    <div class="symptom-card" data-section="mental" data-value="loneliness">
+                        <span class="symptom-icon">🧍</span>
+                        <span class="symptom-label" id="s_loneliness">Loneliness</span>
+                        <span class="symptom-sub" id="s_loneliness_sub">Feeling isolated</span>
+                    </div>
+                    <div class="symptom-card none-card" data-section="mental" data-value="none_mental">
+                        <span class="symptom-icon">✅</span>
+                        <span class="symptom-label" id="s_no_mental">Feeling okay</span>
+                        <span class="symptom-sub" id="s_no_mental_sub">Mind is clear</span>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button class="back-btn" onclick="goToSection(2)" id="back3Btn">← Back</button>
+                <button class="submit-btn half" onclick="goToSection(4)" id="next3Btn">Next →</button>
+            </div>
+        </div>
+
+        <!-- SECTION 4 — Food & Nutrition -->
+        <div class="form-card section-page" id="section4" style="display:none;">
+            <div class="field-group">
+                <label id="eatingLabel">Were you able to eat properly this week?</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="eating" value="yes" />
+                        <span id="yesEating">Yes, eating properly</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="eating" value="sometimes" />
+                        <span id="sometimesEating">Sometimes, skipping meals</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="eating" value="no" />
+                        <span id="noEating">Struggling to eat</span>
+                    </label>
+                </div>
+            </div>
+            <div class="field-group">
+                <label id="waterLabel">Drinking enough water?</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="water" value="yes" />
+                        <span id="yesWater">Yes, enough water</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="water" value="no" />
+                        <span id="noWater">Not enough water</span>
+                    </label>
+                </div>
+            </div>
+            <div class="btn-row">
+                <button class="back-btn" onclick="goToSection(3)" id="back4Btn">← Back</button>
+                <button class="submit-btn half" onclick="submitCheckin()" id="submitBtn">Submit Check-in</button>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-card" id="resultSection" style="display:none;">
+            <div class="result-header" id="resultHeader">
+                <span id="resultIcon">✅</span>
+                <h2 id="resultTitle"></h2>
+            </div>
+            <div class="result-body">
+                <p id="resultMessage"></p>
+                <div class="result-meta">
+                    <span>👤 {{ worker.name }}</span>
+                    <span id="resultDate"></span>
+                </div>
+                <div class="clinic-box" id="clinicBox" style="display:none;">
+                    <span>🏥</span>
+                    <div>
+                        <strong id="clinicLabel">Recommended Clinic</strong>
+                        <p id="clinicInfo"></p>
+                    </div>
+                </div>
+                <div class="scheme-box" id="schemeBox">
+                    <p class="scheme-title" id="schemeLabel">You may be eligible for</p>
+                    <div id="schemeList"></div>
+                </div>
+                <a href="/" class="submit-btn" style="text-align:center; text-decoration:none; display:block;"
+                    id="backHomeBtn">← Back to Dashboard</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const workerLang = '{{ worker.language }}';
+        document.getElementById('langSelect').value = workerLang;
+        applyTranslations(workerLang);
+
+        // Symptom selection
+        document.querySelectorAll('.symptom-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const section = card.dataset.section;
+                const val = card.dataset.value;
+                const isNone = val.startsWith('none');
+
+                if (isNone) {
+                    document.querySelectorAll(`[data-section="${section}"]`).forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                } else {
+                    document.querySelectorAll(`[data-section="${section}"][data-value^="none"]`).forEach(c => c.classList.remove('selected'));
+                    card.classList.toggle('selected');
+                }
+            });
+        });
+
+        function goToSection(num) {
+            document.querySelectorAll('.section-page').forEach(s => s.style.display = 'none');
+            document.getElementById('section' + num).style.display = 'block';
+            const progress = { 1: 25, 2: 50, 3: 75, 4: 100 };
+            document.getElementById('progressBar').style.width = progress[num] + '%';
+            document.getElementById('sectionLabel').textContent = `Section ${num} of 4`;
+            const t = translations[document.getElementById('langSelect').value] || translations.english;
+            const titles = [t.section1, t.section2, t.section3, t.section4];
+            document.getElementById('sectionTitle').textContent = titles[num - 1];
+            window.scrollTo(0, 0);
+        }
+
+        function getSelected(section) {
+            return [...document.querySelectorAll(`[data-section="${section}"].selected`)]
+                .map(c => c.dataset.value)
+                .filter(v => !v.startsWith('none'));
+        }
+
+        async function submitCheckin() {
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = 'Analysing...';
+            btn.disabled = true;
+
+            const eating = document.querySelector('input[name="eating"]:checked')?.value || 'yes';
+            const water = document.querySelector('input[name="water"]:checked')?.value || 'yes';
+
+            const response = await fetch('/submit_checkin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    symptoms: getSelected('symptoms'),
+                    work_symptoms: getSelected('work'),
+                    mental_symptoms: getSelected('mental'),
+                    eating,
+                    water
+                })
+            });
+
+            const data = await response.json();
+            showResult(data);
+        }
+
+        function showResult(data) {
+            document.querySelectorAll('.section-page').forEach(s => s.style.display = 'none');
+            document.getElementById('progressBar').style.width = '100%';
+            document.getElementById('resultSection').style.display = 'block';
+
+            const t = translations[document.getElementById('langSelect').value] || translations.english;
+            const icons = { HIGH: '🚨', MODERATE: '⚠️', SAFE: '✅' };
+            const titles = { HIGH: t.result_high_title, MODERATE: t.result_moderate_title, SAFE: t.result_safe_title };
+            const messages = { HIGH: t.result_high_msg, MODERATE: t.result_moderate_msg, SAFE: t.result_safe_msg };
+
+            document.getElementById('resultIcon').textContent = icons[data.risk_level];
+            document.getElementById('resultTitle').textContent = titles[data.risk_level];
+            document.getElementById('resultMessage').textContent = messages[data.risk_level];
+            document.getElementById('resultDate').textContent = '📅 ' + data.date;
+            document.getElementById('resultHeader').className = 'result-header result-' + data.color;
+
+            if (data.clinic) {
+                document.getElementById('clinicBox').style.display = 'flex';
+                document.getElementById('clinicInfo').textContent = data.clinic;
+                document.getElementById('clinicLabel').textContent = t.clinic_label;
+            }
+
+            document.getElementById('schemeLabel').textContent = t.scheme_label;
+            const schemeList = document.getElementById('schemeList');
+            schemeList.innerHTML = data.schemes.map(s => `<div class="scheme-item">✅ ${s}</div>`).join('');
+
+            window.scrollTo(0, 0);
+        }
+
+        function changeLanguage(lang) {
+            fetch('/set_language', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ language: lang })
+            }).then(() => applyTranslations(lang));
+        }
+
+        function applyTranslations(lang) {
+            const t = translations[lang] || translations.english;
+            document.getElementById('checkinTitle').textContent = t.checkin_title;
+            document.getElementById('checkinSubtitle').textContent = t.checkin_subtitle;
+            document.getElementById('selectAllLabel').textContent = t.select_all;
+            document.getElementById('selectAllLabel2').textContent = t.select_all;
+            document.getElementById('selectAllLabel3').textContent = t.select_all;
+            document.getElementById('next1Btn').textContent = t.next;
+            document.getElementById('next2Btn').textContent = t.next;
+            document.getElementById('next3Btn').textContent = t.next;
+            document.getElementById('back2Btn').textContent = t.back;
+            document.getElementById('back3Btn').textContent = t.back;
+            document.getElementById('back4Btn').textContent = t.back;
+            document.getElementById('submitBtn').textContent = t.submit;
+            document.getElementById('eatingLabel').textContent = t.eating_well;
+            document.getElementById('waterLabel').textContent = t.water;
+            document.getElementById('yesEating').textContent = t.yes_eating;
+            document.getElementById('sometimesEating').textContent = t.sometimes_eating;
+            document.getElementById('noEating').textContent = t.no_eating;
+            document.getElementById('yesWater').textContent = t.yes_water;
+            document.getElementById('noWater').textContent = t.no_water;
+            document.getElementById('s_cough').textContent = t.cough;
+            document.getElementById('s_cough_sub').textContent = t.cough_sub;
+            document.getElementById('s_fever').textContent = t.fever;
+            document.getElementById('s_fever_sub').textContent = t.fever_sub;
+            document.getElementById('s_fatigue').textContent = t.fatigue;
+            document.getElementById('s_fatigue_sub').textContent = t.fatigue_sub;
+            document.getElementById('s_weight_loss').textContent = t.weight_loss;
+            document.getElementById('s_weight_loss_sub').textContent = t.weight_loss_sub;
+            document.getElementById('s_breathlessness').textContent = t.breathlessness;
+            document.getElementById('s_breathlessness_sub').textContent = t.breathlessness_sub;
+            document.getElementById('s_night_sweats').textContent = t.night_sweats;
+            document.getElementById('s_night_sweats_sub').textContent = t.night_sweats_sub;
+            document.getElementById('s_body_pain').textContent = t.body_pain;
+            document.getElementById('s_body_pain_sub').textContent = t.body_pain_sub;
+            document.getElementById('s_none').textContent = t.none;
+            document.getElementById('s_none_sub').textContent = t.none_sub;
+            document.getElementById('s_back_pain').textContent = t.back_pain;
+            document.getElementById('s_back_pain_sub').textContent = t.back_pain_sub;
+            document.getElementById('s_dust_exposure').textContent = t.dust_exposure;
+            document.getElementById('s_dust_exposure_sub').textContent = t.dust_exposure_sub;
+            document.getElementById('s_heat_exhaustion').textContent = t.heat_exhaustion;
+            document.getElementById('s_heat_exhaustion_sub').textContent = t.heat_exhaustion_sub;
+            document.getElementById('s_chemical_exposure').textContent = t.chemical_exposure;
+            document.getElementById('s_chemical_exposure_sub').textContent = t.chemical_exposure_sub;
+            document.getElementById('s_eye_irritation').textContent = t.eye_irritation;
+            document.getElementById('s_eye_irritation_sub').textContent = t.eye_irritation_sub;
+            document.getElementById('s_skin_rash').textContent = t.skin_rash;
+            document.getElementById('s_skin_rash_sub').textContent = t.skin_rash_sub;
+            document.getElementById('s_stress').textContent = t.stress;
+            document.getElementById('s_stress_sub').textContent = t.stress_sub;
+            document.getElementById('s_poor_sleep').textContent = t.poor_sleep;
+            document.getElementById('s_poor_sleep_sub').textContent = t.poor_sleep_sub;
+            document.getElementById('s_anxiety').textContent = t.anxiety;
+            document.getElementById('s_anxiety_sub').textContent = t.anxiety_sub;
+            document.getElementById('s_loneliness').textContent = t.loneliness;
+            document.getElementById('s_loneliness_sub').textContent = t.loneliness_sub;
+            document.getElementById('s_no_mental').textContent = t.no_mental;
+            document.getElementById('s_no_mental_sub').textContent = t.no_mental_sub;
+            document.getElementById('backHomeBtn').textContent = '← ' + t.welcome;
+        }
+    </script>
+
+</body>
+
+</html>
